@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/deadlines.css') }}?v=1.1">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.countdown.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/moment.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/moment-timezone-with-data.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/store.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/ouical.min.js')}}"></script>
+</head>
+<body>
+<div class="top-strip"></div>
+    <div class="container">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                  <h1>
+                    {{ site.title }} <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ site.description }}{% if site.twitter_hashtag %} #{{ site.twitter_hashtag }}{% endif %}" data-show-count="false" style="font-size:13px;">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                    <iframe src="https://ghbtns.com/github-btn.html?user={{ site.github_username }}&repo={{ site.github_repo }}&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+                  </h1>
+                </div>
+                <div class="meta col-xs-12">
+                  {{ site.description }}.
+                  To add/edit a conference, <a target="_blank" href="//github.com/{{ site.github_username }}/{{ site.github_repo }}">send in a pull request</a>.
+                </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-xs-12">
+                  <form class="form-horizontal">
+                    <div class="form-group">
+                      {% for type in site.data.types %}
+                      <div class="col-md-4 col-xs-6">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" id="{{ type.sub }}-checkbox" class=""> {{ type.name }}
+                          </label>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </form>
+              </div>
+            </div>
+            <div class="row">
+              <div class="meta col-xs-12">
+                <span class="local-timezone-hide">
+                  Deadlines are shown in <span class="local-timezone">America/New_York</span> time.
+                  To view them in conference website timezones, click on them.
+                </span>
+              </div>
+              <div class="meta col-xs-12">
+                You can optionally export all deadlines to
+                <a href="https://calendar.google.com/calendar/r?cid={{ site.url }}/ai-deadlines.ics">Google Calendar</a> or
+                <a href="/ai-deadlines.ics">.ics</a>.
+              </div>
+            </div>
+        </div>
+        <!--    显示会议部分    -->
+        {% for conf in site.data.conferences %}
+{#        console.log({{site.data.journal}})#}
+        <div id="{{conf[1][0][1]}}" class="{{conf[1][0][0]}}-conf conf-conf">
+          <div class="row conf-row">
+              <div class="col-xs-5 col-sm-6">
+                  <a class="conf-title" href="/conference?id={{ conf[1][0][1] }}">{{conf[1][0][1]}} {{conf[1][0][3]}}</a>
+              </div>
+              <div class="col-xs-7 col-sm-6">
+                Remain <span class="timer"></span> for Submission
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-6">
+              <div class="meta">
+                  <span class="conf-date">Full Name:{{conf[1][1][0]}}.</span><br>
+                  <span class="conf-date">Submission:{{conf[1][0][3]}}.</span><br>
+                  <span class="conf-date">Notification:{{conf[1][0][4]}}.</span><br>
+                  <span class="conf-date">Conference:{{conf[1][0][5]}}.</span><br>
+                <span class="conf-place">
+                  <a href="http://maps.google.com/?q={{conf[1][1][2].Location}}">{{conf[1][1][2].Location}}</a>.
+                </span>
+              </div>
+              {% if conf.note %}
+              <div class="note">
+                {{conf.note}}
+              </div>
+              {% endif %}
+            </div>
+            <div class="col-xs-12 col-sm-6">
+              <div class="deadline">
+                <div>Deadline:
+                  <span class="deadline-time"></span>
+                </div>
+              </div>
+                Remain <span class="noti-timer"></span> for Notification <br>
+
+                Remain <span class="conf-timer"></span> for Conference <br>
+
+{#              <div class="calendar"></div>#}
+            </div>
+            <div class="col-xs-12 col-sm-6">
+              <div class="calendar"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <span title="Click to only show {{conf[1][0][0]}} conferences" data-sub="{{conf[1][0][0]}}" class="conf-sub"></span>
+            </div>
+          </div>
+          <hr>
+        </div>
+        {% endfor %}
+        <!--    显示期刊部分    -->
+{#        console.log("123321");#}
+{#        {% for key,jour in site.data.journal.items() %}#}
+{#        console.log({{jour}}});#}
+{#        <div id="{{jour[0][1]}}" class="{{jour[0][0]}}-conf jour-conf">#}
+{#          <div class="row conf-row">#}
+{#              <div class="col-xs-5 col-sm-6">#}
+{#                  <a class="conf-title" href="/journal?id={{ jour[0][1] }}">{{jour[0][1]}} {{jour[0][5]}}</a>#}
+{#              </div>#}
+{#              <div class="col-xs-7 col-sm-6">#}
+{#                Remain <span class="timer"></span> for Submission#}
+{#              </div>#}
+{#          </div>#}
+{#          <div class="row">#}
+{#            <div class="col-xs-12 col-sm-6">#}
+{#              <div class="meta">#}
+{#                  <span class="conf-date">Full Name:{{jour[0][2]}}.</span><br>#}
+{#                  <span class="conf-date">Impact Factor:{{jour[0][3]}}.</span><br>#}
+{#                  <span class="conf-date">Publisher:{{jour[0][4]}}.</span><br>#}
+{#                  <span class="conf-date">ISSN:{{jour[0][5]}}.</span><br>#}
+{#                <span class="conf-place">#}
+{#                  <a href="http://maps.google.com/?q={{jour[1][1][2].Location}}">{{jour[1][1][2].Location}}</a>.#}
+{#                </span>#}
+{#              </div>#}
+{#              {% if jour.note %}#}
+{#              <div class="note">#}
+{#                {{jour.note}}#}
+{#              </div>#}
+{#              {% endif %}#}
+{#            </div>#}
+{#            <div class="col-xs-12 col-sm-6">#}
+{#              <div class="deadline">#}
+{#                <div>Deadline:#}
+{#                  <span class="deadline-time"></span>#}
+{#                </div>#}
+{#              </div>#}
+{#                Remain <span class="noti-timer"></span> for Notification <br>#}
+{##}
+{#                Remain <span class="conf-timer"></span> for Conference <br>#}
+{##}
+{#              <div class="calendar"></div>#}
+{#            </div>#}
+{#            <div class="col-xs-12 col-sm-6">#}
+{#              <div class="calendar"></div>#}
+{#            </div>#}
+{#          </div>#}
+{#          <div class="row">#}
+{#            <div class="col-xs-12">#}
+{#              <span title="Click to only show {{jour[0][0]}} journals" data-sub="{{jour[0][0]}}" class="conf-sub"></span>#}
+{#            </div>#}
+{#          </div>#}
+{#          <hr>#}
+{#        </div>#}
+{#        {% endfor %}#}
+
+        <footer>
+          <div class="row">
+            <div class="col-xs-12 col-sm-6">
+              <a href="/">{{ site.domain }}</a> is maintained by <a href="https://github.com/{{ site.github_username }}">@{{ site.twitter_username }}</a>.<br>
+              If you find it useful, consider <a title="_blank" href="">buying him a coffee</a>.
+            </div>
+          </div>
+        </footer>
+        <br><br>
+    </div>
+    <script type="text/javascript" charset="utf-8">
+    $(function() {
+        // Make sure this is >= no. of subs
+        // Currently not used
+        var colors = ['#341f97', '#ee5253', '#2e86de',
+                      '#ff9f43', '#10ac84', '#222f3e']
+
+        // Borrowed from https://github.com/moment/moment-timezone/issues/167
+        // Adds support for time zones 'UTC-12'..'UTC+12'
+        function addUtcTimeZones() {
+          // Moment.js uses the IANA timezone database, which supports generic time zones like 'Etc/GMT+1'.
+          // However, the signs for these time zones are inverted compared to ISO 8601.
+          // For more details, see https://github.com/moment/moment-timezone/issues/167
+          for (let offset = -12; offset <= 12; offset++) {
+            const posixSign = offset <= 0 ? '+' : '-';
+            const isoSign = offset >= 0 ? '+' : '-';
+            const link = `Etc/GMT${posixSign}${Math.abs(offset)}|UTC${isoSign}${Math.abs(offset)}`;
+            moment.tz.link(link);
+          }
+        }
+        addUtcTimeZones();
+
+        try {
+          var local_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          $('.local-timezone').text(local_timezone.toString());
+        }
+        catch(err) {
+          $('.local-timezone-hide').hide();
+        }
+
+
+        // Get all subs
+        var conf_type_data = {{ site.data.types|tojson }};
+        var all_subs = [];
+        var sub2name = {}; var name2sub = {};
+        for (var i = 0; i < conf_type_data.length; i++) {
+          all_subs[i] = conf_type_data[i]['sub'];
+          sub2name[conf_type_data[i]['sub']] = conf_type_data[i]['name'];
+          name2sub[conf_type_data[i]['name']] = conf_type_data[i]['sub'];
+        }
+
+        {% for conf in site.data.conferences%}
+        {#console.log({{conf[1]|tojson}})#}
+        $('#{{conf[1][0][1]}} .conf-sub').html(sub2name["{{conf[1][0][0]}}"].toLocaleLowerCase());
+        {% if conf[1][0][3] == "TBA" %}
+          $('#{{conf[1][0][1]}} .timer').html("TBA");
+          $('#{{conf[1][0][1]}} .deadline-time').html("TBA");
+        {% else %}
+          // adjust date according to deadline timezone
+          var timezone = {% if conf[1].timezone %}"{{conf[1].timezone}}" {% else %} "America/New_York" {% endif %};
+          var confDate = moment.tz("{{conf[1][0][3]}}", timezone);
+          var notiConfDate = moment.tz("{{conf[1][0][4]}}", timezone);
+          var confConfDate = moment.tz("{{conf[1][0][5]}}", timezone);
+          // render countdown timer
+          $('#{{conf[1][0][1]}} .timer').countdown(confDate.toDate(), function(event) {
+            $(this).html(event.strftime('%D days %Hh %Mm %Ss'));
+          });
+          $('#{{conf[1][0][1]}} .noti-timer').countdown(notiConfDate.toDate(), function(event) {
+            $(this).html(event.strftime('%D days %Hh %Mm %Ss'));
+          });
+          $('#{{conf[1][0][1]}} .conf-timer').countdown(confConfDate.toDate(), function(event) {
+            $(this).html(event.strftime('%D days %Hh %Mm %Ss'));
+          });
+
+          // convert deadline to local timezone
+          try {
+            var localConfDate = moment.tz(confDate, local_timezone);
+            $('#{{conf[1][0][1]}} .deadline-time').html(localConfDate.toString());
+          }
+          catch(err) {
+            console.log("Error converting to local timezone.");
+          }
+
+          // add calendar button
+          var myCalendar = createCalendar({
+            options: {
+              class: 'calendar-obj',
+
+              // You can pass an ID. If you don't, one will be generated for you
+              id: '{{conf[1][0][1]}}'
+            },
+            data: {
+              // Event title
+              title: '{{conf[1][0][1]}} {{conf[1][0][3]}} deadline',
+
+              // Event start date
+              start: confDate.toDate(), // new Date('June 15, 2013 19:00'),
+
+              // Event duration
+              duration: 60,
+            }
+          });
+          document.querySelector('#{{conf[1][0][1]}} .calendar').appendChild(myCalendar);
+
+          // check if date has passed, add 'past' class to it
+          var today = moment();
+          if (today.diff(confDate) > 0)
+            $('#{{conf[1][0][1]}}').addClass('past');
+        {% endif %}
+        {% endfor %}
+
+        // Get subjects from URL
+        var url = new URL(window.location);
+        var subs = url.searchParams.get('sub');
+        if (subs == undefined) {
+           subs = store.get('{{ site.domain }}');
+        } else {
+           {#subs = subs.toUpperCase().split(',');#}
+           subs = subs.split(',');
+        }
+        // Get subjects from browser cache
+        if (subs === undefined) {
+          subs = all_subs;
+          for (var i = 0; i < subs.length; i++) {
+            $('#' + subs[i] + '-checkbox').prop('checked', true);
+          }
+        } else {
+          for (var i = 0; i < subs.length; i++) {
+            $('#' + subs[i] + '-checkbox').prop('checked', true);
+          }
+        }
+        // Hide unchecked subs
+        for (var i = 0; i < all_subs.length; i++) {
+          if (subs.indexOf(all_subs[i]) < 0) {
+            $('.' + all_subs[i] + '-conf').hide();
+          }
+        }
+        store.set('{{ site.domain }}', subs);
+        window.history.pushState('', '', '/?sub=' + subs.join());
+
+        // Event handler on checkbox change
+        $('form :checkbox').change(function(e) {
+          var checked = $(this).is(':checked');
+          var cid = $(this).prop('id');
+          var csub = cid.substring(0, cid.length - 9);
+          if (checked == true) {
+            $('.' + csub + '-conf').show();
+            if (subs.indexOf(csub) < 0)
+              subs.push(csub);
+          }
+          else {
+            $('.' + csub + '-conf').hide();
+            var idx = subs.indexOf(csub);
+            if (idx >= 0)
+              subs.splice(idx, 1);
+          }
+          console.log(subs);
+          store.set('{{ site.domain }}', subs);
+          window.history.pushState('', '', '/?sub=' + subs.join());
+        });
+
+        // Event handler on sub click
+        $('.conf-sub').click(function(e) {
+          var csub = $(this).data('sub');
+          for (var i = 0; i < subs.length; i++) {
+            if (subs[i] != csub) {
+              $('#' + subs[i] + '-checkbox').prop('checked', false);
+              $('.' + subs[i] + '-conf').hide();
+            }
+            else {
+              $('#' + subs[i] + '-checkbox').prop('checked', true);
+              $('.' + subs[i] + '-conf').show();
+            }
+          }
+          subs = [csub];
+          console.log(subs);
+          store.set('{{ site.domain }}', subs);
+          window.history.pushState('', '', '/?sub=' + subs.join());
+        });
+    });
+    <!-- Google analytics -->
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', '{{ site.ga_id }}', 'auto');
+      ga('send', 'pageview');
+    </script>
+</body>
+</html>

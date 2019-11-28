@@ -1,0 +1,13 @@
+---
+- name: CCF-A
+  sub: a
+- name: CCF-B
+  sub: b
+- name: CCF-C
+  sub: c
+#- name: Conference
+#  sub: conf
+#- name: Journel
+#  sub: jour
+#- name: Other Conference
+#  sub: other
