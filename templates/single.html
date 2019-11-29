@@ -74,7 +74,7 @@
           <hr>
         </div>
         <footer>
-          <a href="/">{{ site.domain }}</a> is maintained by <a href="https://github.com/{{ site.github_username }}">@{{ site.twitter_username }}</a>.<br>
+          <a href="/comdeadline">{{ site.domain }}</a> is maintained by <a href="https://github.com/{{ site.github_username }}">@{{ site.twitter_username }}</a>.<br>
           If you find it useful, consider <a target="_blank" href="">buying him a coffee</a>.
         </footer>
     </div>
@@ -112,7 +112,7 @@
               console.log("Robin Test")
               $('#conf-call-for-paper').text('{{conf[1][1][3]|tojson}} ');
               $('#conf-title-href').text("{{conf[1][0][1]}} {{conf[1][0][3]}}");
-              $('#conf-title-href').attr('href', "/conference?id={{conf[1][0][1]}}");
+              $('#conf-title-href').attr('href', "/comdeadline/conference?id={{conf[1][0][1]}}");
               $('#conf-date').text("{{conf[1][0][3]}}");
               $('#conf-place').text("{{conf[1][1][2].Location}}");
               $('#conf-website').text("{{conf[1][1][1]}}");

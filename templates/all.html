@@ -68,7 +68,7 @@
         <div id="{{conf[1][0][1]}}" class="{{conf[1][0][0]}}-conf conf-conf">
           <div class="row conf-row">
               <div class="col-xs-5 col-sm-6">
-                  <a class="conf-title" href="/conference?id={{ conf[1][0][1] }}">{{conf[1][0][1]}} {{conf[1][0][3]}}</a>
+                  <a class="conf-title" href="/comdeadline/conference?id={{ conf[1][0][1] }}">{{conf[1][0][1]}} {{conf[1][0][3]}}</a>
               </div>
               <div class="col-xs-7 col-sm-6">
                 Remain <span class="timer"></span> for Submission
@@ -173,7 +173,7 @@
         <footer>
           <div class="row">
             <div class="col-xs-12 col-sm-6">
-              <a href="/">{{ site.domain }}</a> is maintained by <a href="https://github.com/{{ site.github_username }}">@{{ site.twitter_username }}</a>.<br>
+              <a href="/comdeadline">{{ site.domain }}</a> is maintained by <a href="https://github.com/{{ site.github_username }}">@{{ site.twitter_username }}</a>.<br>
               If you find it useful, consider <a title="_blank" href="">buying him a coffee</a>.
             </div>
           </div>
@@ -308,7 +308,7 @@
           }
         }
         store.set('{{ site.domain }}', subs);
-        window.history.pushState('', '', '/?sub=' + subs.join());
+        window.history.pushState('', '', '/comdeadline?sub=' + subs.join());
 
         // Event handler on checkbox change
         $('form :checkbox').change(function(e) {
@@ -328,7 +328,7 @@
           }
           console.log(subs);
           store.set('{{ site.domain }}', subs);
-          window.history.pushState('', '', '/?sub=' + subs.join());
+          window.history.pushState('', '', '/comdeadline?sub=' + subs.join());
         });
 
         // Event handler on sub click
@@ -347,7 +347,7 @@
           subs = [csub];
           console.log(subs);
           store.set('{{ site.domain }}', subs);
-          window.history.pushState('', '', '/?sub=' + subs.join());
+          window.history.pushState('', '', '/comdeadline?sub=' + subs.join());
         });
     });
     <!-- Google analytics -->

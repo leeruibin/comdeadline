@@ -83,29 +83,29 @@ def get_data():
 
 
 
-@app.route('/')
+@app.route('/comdeadline')
 def hello_world():
     data = get_data()
     return render_template("all.html", site=data)
 
-@app.route('/all')
+@app.route('/comdeadline/all')
 def test():
    data = get_data()
    return render_template("all.html", site=data)
 
-@app.route('/single')
+@app.route('/comdeadline/single')
 def demo():
     data = get_data()
     return render_template("single.html", site=data)
 
-@app.route('/conference')
+@app.route('/comdeadline/conference')
 def conference():
     conf = {}
     conf['id'] = request.args.get('id')
     site = get_data()
     return render_template("single.html", site=site, conf_id=conf)
 
-@app.route('/update')
+@app.route('/comdeadline/update')
 def update_conf():
     # 通过爬虫更新会议与期刊列表信息
     CS.update_conf()
