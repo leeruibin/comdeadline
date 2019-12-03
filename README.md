@@ -30,7 +30,7 @@ To add or update information:
 
 [MIT][1]
 
-[1]: http://www.comdeadline.com/
+[1]: http://www.drxiaofei.wang/comdeadline?sub=a,b,c
 [2]: http://aideadlin.es/
 [3]: http://geodeadlin.es/
 [4]: https://github.com/tbryn/neuro-deadlines
